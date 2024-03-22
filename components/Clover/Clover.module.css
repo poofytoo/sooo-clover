@@ -1,3 +1,7 @@
+.buttonContainer {
+  margin-bottom: 20px;
+}
+
 .centerContainer {
   text-align: center;
   display: flex;
@@ -10,6 +14,11 @@
   gap: 10px;
   grid-template-columns: 30px var(--clover-size) 30px;
   text-align: center;
+}
+
+.rotationAnimation {
+  transition: 0.1s all;
+  transform: rotate(90deg);
 }
 
 .ccw {

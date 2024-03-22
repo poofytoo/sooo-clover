@@ -27,16 +27,21 @@ const Leaf: React.FC<LeafProps> = ({ words, id, onClick }) => {
     setTimeout(() => {
       setIcon(undefined);
     }, 100);
-  }
+  };
 
   return (
     <div
-      className={styles.leafContainer}
+      className={cx(styles.leafContainer, {
+        [styles.rotationAnimation]: icon === 'ROTATE_CW',
+        [styles.rotationAnimationCcw]: icon === 'ROTATE_CCW'
+      })}
       ref={setNodeRef}
       style={style}
       onClick={() => {
         showIcon('ROTATE_CW');
-        onClick(3)();
+        setTimeout(() => {
+          onClick(3)();
+        }, 100);
       }}
       onContextMenu={(e) => {
         showIcon('ROTATE_CCW');

@@ -135,21 +135,23 @@ export const Clover = () => {
     onDragEnd={handleDragEnd}
     sensors={sensors}
   >
-    <div>
+    <div className={styles.buttonContainer}>
       <button onClick={(e) => {
         setShowIcon(true);
         setTimeout(() => {
           setShowIcon(false);
+          setGameState({
+            ...gameState,
+            rotation: (gameState.rotation + 3) % 4
+          })
         }, 100);
-        setGameState({
-          ...gameState,
-          rotation: (gameState.rotation + 3) % 4
-        })
       }}
-      >Rotate</button>
+      >Rotate Clover</button>
     </div>
     <div className={styles.centerContainer}>
-      <div className={styles.cloverContainer}>
+      <div className={cx(styles.cloverContainer, {
+        [styles.rotationAnimation]: showIcon
+      })}>
         <div></div>
         <div><TextInput
           value={getEntryValue(0)}
