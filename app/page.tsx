@@ -4,7 +4,8 @@ import { Clover } from '@/components/Clover'
 import styles from './page.module.css'
 import { useEffect, useState } from 'react';
 import { CloverState } from '@/types';
-import { wordList } from '@/constants';
+import { pokemonList } from '@/constants/pokemon';
+import { wordList } from '@/constants/words';
 
 export type GameState = "CLUING" | "GUESSING" | "REVEALED";
 

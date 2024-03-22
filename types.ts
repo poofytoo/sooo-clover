@@ -2,6 +2,7 @@ export interface LeafState {
   words: string[];
   rotation: number;
   position: number;
+  showIncorrect?: boolean;
   id: number;
 }
 

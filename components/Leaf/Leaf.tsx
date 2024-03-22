@@ -4,18 +4,20 @@ import { PointerSensor, useDraggable, useSensor, useSensors } from '@dnd-kit/cor
 import { CSS } from '@dnd-kit/utilities';
 import { CwIcon } from '@/icons/Rotate';
 import cx from "classnames";
+import { XIcon } from '@/icons/XIcon.tsx';
 
 interface LeafProps {
   words: string[];
   id: number
   onClick: (direction: number) => () => void
+  showIncorrect?: boolean
 }
 
 type Icon = 'ROTATE_CW' | 'ROTATE_CCW' | 'GRAB';
 
-const Leaf: React.FC<LeafProps> = ({ words, id, onClick }) => {
+const Leaf: React.FC<LeafProps> = ({ words, id, onClick, showIncorrect }) => {
   const [icon, setIcon] = useState<Icon | undefined>();
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
     id
   });
   const style = {
@@ -33,7 +35,8 @@ const Leaf: React.FC<LeafProps> = ({ words, id, onClick }) => {
     <div
       className={cx(styles.leafContainer, {
         [styles.rotationAnimation]: icon === 'ROTATE_CW',
-        [styles.rotationAnimationCcw]: icon === 'ROTATE_CCW'
+        [styles.rotationAnimationCcw]: icon === 'ROTATE_CCW',
+        [styles.isDragging]: isDragging,
       })}
       ref={setNodeRef}
       style={style}
@@ -70,6 +73,9 @@ const Leaf: React.FC<LeafProps> = ({ words, id, onClick }) => {
           })}>
             <CwIcon />
           </div>
+          {showIncorrect &&
+            <XIcon />
+          }
         </div>
       </div>
     </div>

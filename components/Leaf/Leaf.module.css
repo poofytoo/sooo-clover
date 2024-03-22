@@ -11,11 +11,17 @@
   font-size: 12px;
   white-space: nowrap;
   border-radius: var(--round);
+  text-transform: uppercase;
 }
 
 .rotationAnimation {
   transform: rotate(90deg);
   transition: 0.1s linear;
+}
+
+.isDragging {
+  z-index: 99;
+  box-shadow: 0 0 15px 0 var(--accent-color);
 }
 
 .rotationAnimationCcw {
