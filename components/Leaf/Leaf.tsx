@@ -50,6 +50,7 @@ const Leaf: React.FC<LeafProps> = ({ words, id, onClick }) => {
       }}
       {...listeners}
       {...attributes}
+      tabIndex={-1}
     >
       <div className={styles.top}>{words[0]}</div>
       <div className={styles.right}>{words[1]}</div>

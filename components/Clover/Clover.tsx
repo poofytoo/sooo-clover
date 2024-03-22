@@ -12,34 +12,21 @@ import { LeafPlaceholder } from '../LeafPlaceholder';
 
 import { DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { CwIcon } from '@/icons/Rotate';
+import { CloverState } from '@/types';
+import { GameState } from '@/app/page';
 
-
-interface LeafState {
-  words: string[];
-  rotation: number;
-  position: number;
-  id: number;
-}
-
-interface CloverState {
-  entries: string[];
-  rotation: number;
-  leaves: LeafState[];
-}
-
-export const Clover = () => {
+export const Clover = ({
+  cloverState,
+  setCloverState,
+  gameState,
+  setGameState
+}: {
+  cloverState: CloverState,
+  setCloverState: (state: CloverState) => void
+  gameState: GameState,
+  setGameState: (state: GameState) => void
+}) => {
   const [showIcon, setShowIcon] = useState(false);
-  const [gameState, setGameState] = useState<CloverState>({
-    entries: [...Array(4)].map(() => ''),
-    rotation: 0,
-    leaves: [
-      { id: 1, words: ['apple', 'banana', 'cranberry', 'durian'], rotation: 0, position: 4 },
-      { id: 2, words: ['elderberry', 'fig', 'grape', 'honeydew'], rotation: 0, position: 5 },
-      { id: 3, words: ['kiwi', 'lemon', 'mango', 'nectarine'], rotation: 0, position: 6 },
-      { id: 4, words: ['orange', 'pear', 'quince', 'raspberry'], rotation: 0, position: 7 },
-      { id: 5, words: ['strawberry', 'tangerine', 'ugli', 'vanilla'], rotation: 0, position: 8 },
-    ]
-  });
 
   const handleDragEnd = (event: any) => {
     const { active, over } = event;
@@ -47,20 +34,20 @@ export const Clover = () => {
       return;
     }
 
-    const leafIndex = gameState.leaves.findIndex((_, key) => {
+    const leafIndex = cloverState.leaves.findIndex((_, key) => {
       return key + 1 === active.id
     });
 
     const newPosition = parseInt(over.id.replace('spot', ''));
 
     // check to see if there's a leaf already in the new position
-    const existingLeafAtNewPosition = gameState.leaves.find(leaf => leaf.position === newPosition);
+    const existingLeafAtNewPosition = cloverState.leaves.find(leaf => leaf.position === newPosition);
 
     // get old position of leaf
-    const removedFromPosition = gameState.leaves[leafIndex].position;
+    const removedFromPosition = cloverState.leaves[leafIndex].position;
 
 
-    const newLeaves = [...gameState.leaves];
+    const newLeaves = [...cloverState.leaves];
     newLeaves[leafIndex].position = newPosition;
 
     if (existingLeafAtNewPosition) {
@@ -69,39 +56,38 @@ export const Clover = () => {
 
     // because when it's dragged into the gamestate, the gamestate may have a rotation, and it's suddenly applied to the leaf. trick is to subtract the rotation from the leaf's rotation such that the leaf's rotation doesn't look like it's changing when being dragged in. However, do this ONLY if the leaf started in the leaf bank.
     if (removedFromPosition >= 4) {
-      newLeaves[leafIndex].rotation = (newLeaves[leafIndex].rotation - gameState.rotation + 4) % 4;
+      newLeaves[leafIndex].rotation = (newLeaves[leafIndex].rotation - cloverState.rotation + 4) % 4;
     }
 
-    // converself if it's dragged from the clover back to the leaf bank, add the rotation back
     if (newPosition >= 4) {
-      newLeaves[leafIndex].rotation = (newLeaves[leafIndex].rotation + gameState.rotation) % 4;
+      newLeaves[leafIndex].rotation = (newLeaves[leafIndex].rotation + cloverState.rotation) % 4;
     }
 
-    setGameState({
-      ...gameState,
+    setCloverState({
+      ...cloverState,
       leaves: newLeaves
     });
   }
 
   const getEntryValue = (index: number) => {
-    return gameState.entries[(index + gameState.rotation) % 4];
+    return cloverState.entries[(index + cloverState.rotation) % 4];
   }
 
   const setEntryValue = (index: number, value: string) => {
-    const entries = [...gameState.entries];
-    entries[(index + gameState.rotation) % 4] = value;
-    setGameState({
-      ...gameState,
+    const entries = [...cloverState.entries];
+    entries[(index + cloverState.rotation) % 4] = value;
+    setCloverState({
+      ...cloverState,
       entries: entries
     });
   }
 
   const getWordsPosition = (leafId: number, words: string[]) => {
-    const leaf = gameState.leaves.find(leaf => leaf.id === leafId);
+    const leaf = cloverState.leaves.find(leaf => leaf.id === leafId);
     if (!leaf) {
       return [];
     }
-    const rotation = (leaf.rotation + (leaf.position <= 3 ? gameState.rotation : 0)) % 4;
+    const rotation = (leaf.rotation + (leaf.position <= 3 ? cloverState.rotation : 0)) % 4;
     return words.map((_, index) => {
       return words[(index + rotation) % 4];
     });
@@ -110,11 +96,11 @@ export const Clover = () => {
   const rotateLeaf = (id: number) => {
     return (direction: number) => {
       return () => {
-        const newLeaves = [...gameState.leaves];
-        const leafIndex = gameState.leaves.findIndex(leaf => leaf.id === id);
+        const newLeaves = [...cloverState.leaves];
+        const leafIndex = cloverState.leaves.findIndex(leaf => leaf.id === id);
         newLeaves[leafIndex].rotation = (newLeaves[leafIndex].rotation + direction) % 4;
-        setGameState({
-          ...gameState,
+        setCloverState({
+          ...cloverState,
           leaves: newLeaves
         });
       }
@@ -140,20 +126,40 @@ export const Clover = () => {
         setShowIcon(true);
         setTimeout(() => {
           setShowIcon(false);
-          setGameState({
-            ...gameState,
-            rotation: (gameState.rotation + 3) % 4
+          setCloverState({
+            ...cloverState,
+            rotation: (cloverState.rotation + 3) % 4
           })
         }, 100);
       }}
-      >Rotate Clover</button>
+      >Rotate Clover</button>{" "}
+      {gameState === "CLUING" && <button onClick={() => {
+        setGameState("GUESSING");
+        const newCloverState = { ...cloverState };
+        // randomize rotations and place into positions 4 through 8 inclusive. use each position exactly once.
+        const positions = [4, 5, 6, 7, 8];
+        newCloverState.leaves.forEach(leaf => {
+          const newPosition = positions.splice(Math.floor(Math.random() * positions.length), 1)[0];
+          leaf.position = newPosition;
+          leaf.rotation = Math.floor(Math.random() * 4);
+        });
+      }}>
+        Submit
+      </button>}
+      {gameState === "GUESSING" && <button onClick={
+        () => {
+          setGameState("REVEALED");
+        }}
+      >Guess!</button>}
     </div>
     <div className={styles.centerContainer}>
       <div className={cx(styles.cloverContainer, {
-        [styles.rotationAnimation]: showIcon
+        [styles.rotationAnimation]: showIcon,
       })}>
         <div></div>
         <div><TextInput
+          tabIndex={1}
+          canEdit={gameState === "CLUING"}
           value={getEntryValue(0)}
           setValue={(value) => {
             setEntryValue(0, value);
@@ -161,16 +167,20 @@ export const Clover = () => {
         /></div>
         <div></div>
         <div className={cx(styles.ccw, styles.verticalText)}><TextInput
+          canEdit={gameState === "CLUING"}
+          tabIndex={4}
           value={getEntryValue(3)}
           setValue={(value) => {
             setEntryValue(3, value);
           }}
         /></div>
         <div className={styles.centerContainer}>
-          <div className={styles.leavesContainer}>
+          <div className={cx(styles.leavesContainer, {
+            [styles.noModify]: gameState === "CLUING"
+          })}>
             {[0, 1, 3, 2].map((i) => {
-              const key = (i + gameState.rotation) % 4;
-              const childLeaf = gameState.leaves.find(leaf => leaf.position === key);
+              const key = (i + cloverState.rotation) % 4;
+              const childLeaf = cloverState.leaves.find(leaf => leaf.position === key);
               return <div className={styles.leafContainer} key={key}>
                 <LeafPlaceholder id={"spot" + key} >
                   {
@@ -192,6 +202,8 @@ export const Clover = () => {
           </div>
         </div>
         <div className={cx(styles.cw, styles.verticalText)}><TextInput
+          canEdit={gameState === "CLUING"}
+          tabIndex={2}
           value={getEntryValue(1)}
           setValue={(value) => {
             setEntryValue(1, value);
@@ -200,6 +212,8 @@ export const Clover = () => {
         <div></div>
         <div>
           <TextInput
+            canEdit={gameState === "CLUING"}
+            tabIndex={3}
             value={getEntryValue(2)}
             setValue={(value) => {
               setEntryValue(2, value);
@@ -207,9 +221,9 @@ export const Clover = () => {
           /></div>
         <div></div>
       </div>
-      <div className={styles.leafBank}>
+      {gameState !== "CLUING" && <div className={styles.leafBank}>
         {[...Array(5)].map((_, key) => {
-          const childLeaf = gameState.leaves.find(leaf => leaf.position === key + 4);
+          const childLeaf = cloverState.leaves.find(leaf => leaf.position === key + 4);
           return <LeafPlaceholder key={key} id={"spot" + (key + 4)}>
             {
               childLeaf ? <Leaf
@@ -221,7 +235,7 @@ export const Clover = () => {
           </LeafPlaceholder>
         }
         )}
-      </div>
+      </div>}
     </div>
   </DndContext >
 }

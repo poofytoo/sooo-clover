@@ -8,10 +8,9 @@
   width: var(--leaf-size);
   position: relative;
   background-color: var(--leaf-color);
-  font-size: 14px;
+  font-size: 12px;
   white-space: nowrap;
   border-radius: var(--round);
-  box-shadow: 0 0 20px rgba(7, 59, 12, 0.2);
 }
 
 .rotationAnimation {
@@ -32,6 +31,7 @@
 .bottom {
   grid-column: 2 / span 1;
   user-select: none;
+  -webkit-user-select: none;
 }
 
 .top {
@@ -45,6 +45,7 @@
 .right,
 .left {
   user-select: none;
+  -webkit-user-select: none;
   writing-mode: vertical-lr;
   transform: rotate(180deg);
   grid-row: 2 / span 1;
@@ -96,11 +97,9 @@
 .showIconCw {
   opacity: 1 !important;
   transition: 0s opacity;
-  transform: rotate(20deg);
 }
 
 .showIconCcw {
   opacity: 1 !important;
   transition: 0s opacity;
-  transform: rotate(-20deg) scaleX(-1);
 }

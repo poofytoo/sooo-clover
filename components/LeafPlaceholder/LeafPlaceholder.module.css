@@ -3,6 +3,8 @@
   height: var(--leaf-size);
   border: 2px solid transparent;
   border-radius: calc(var(--round) + 2px);
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .noLeaf {
