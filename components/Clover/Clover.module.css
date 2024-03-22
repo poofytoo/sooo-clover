@@ -1,0 +1,78 @@
+.centerContainer {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cloverContainer {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 30px var(--clover-size) 30px;
+  text-align: center;
+}
+
+.ccw {
+  transform: rotate(-90deg);
+}
+
+.leavesContainer {
+  height: var(--clover-size);
+  width: var(--clover-size);;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  justify-items: center;
+}
+
+.leafContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cw {
+  transform: rotate(-90deg);
+}
+
+.verticalText {
+  height: var(--clover-size);;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.leafBank {
+  margin-top: 30px;
+  display: flex;
+  gap: 10px;
+}
+
+.centerContainer {
+  position: relative;
+}
+
+.leavesContainer {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  top: 0;
+}
+
+.iconContainer {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: 0.2s opacity;
+}
+
+.showIcon {
+  opacity: 1;
+  transition: 0s opacity;
+  transform: translate(-50%, -50%) rotate(30deg);
+  transform-origin: center center;
+}

@@ -1,0 +1,18 @@
+.leafPlaceholder {
+  width: var(--leaf-size);
+  height: var(--leaf-size);
+  border: 2px solid transparent;
+  border-radius: calc(var(--round) + 2px);
+}
+
+.noLeaf {
+  border: 2px dashed #ccc;
+}
+
+.isOver {
+  border: 2px dashed #000;
+}
+
+.isActive {
+  z-index: 99;
+}
