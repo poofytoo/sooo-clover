@@ -1,23 +1,21 @@
 'use client';
 
-import { TextInput } from '../TextInput';
 import { useCallback, useEffect, useState } from 'react';
-
-import styles from './Clover.module.css'
+import { DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import cx from "classnames";
 
-// import { wordList } from '@/constants/pokemon';
-
-import Leaf from '../Leaf/Leaf';
-import { LeafPlaceholder } from '@/components/LeafPlaceholder';
+import { GameState } from '@/app/page';
 import { Celebrate } from '@/components/Celebrate';
-
-import { DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { LeafPlaceholder } from '@/components/LeafPlaceholder';
 import { CwIcon } from '@/icons/Rotate';
 import { CloverState, LeafState } from '@/types';
-import { GameState } from '@/app/page';
-import { Button } from '../Button';
 import { gab } from '@/utils';
+
+import { Button } from '../Button';
+import Leaf from '../Leaf/Leaf';
+import { TextInput } from '../TextInput';
+
+import styles from './Clover.module.css'
 
 export const Clover = ({
   cloverState,
@@ -116,7 +114,7 @@ export const Clover = ({
     entries[(index + cloverState.rotation) % 4] = value;
     setCloverState({
       ...cloverState,
-      entries: entries
+      entries
     });
   }
 

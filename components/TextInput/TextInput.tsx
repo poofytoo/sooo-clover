@@ -1,8 +1,9 @@
 
-import { gab } from '@/utils';
-import styles from './TextInput.module.css';
-
 import cx from "classnames";
+
+import { gab } from '@/utils';
+
+import styles from './TextInput.module.css';
 
 export const TextInput = ({
   value,

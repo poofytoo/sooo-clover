@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import styles from './Leaf.module.css'; // Import the CSS module
 import { PointerSensor, useDraggable, useSensor, useSensors } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
-import { CwIcon } from '@/icons/Rotate';
 import cx from "classnames";
+
+import { CwIcon } from '@/icons/Rotate';
 import { XIcon } from '@/icons/XIcon.tsx';
+
+import styles from './Leaf.module.css'; // Import the CSS module
 
 interface LeafProps {
   words: string[];

@@ -1,8 +1,7 @@
+import { gab } from "@/utils";
 
 import "./reset.css";
 import "./globals.css";
-
-import { gab } from "@/utils";
 
 export default function RootLayout({
   children,

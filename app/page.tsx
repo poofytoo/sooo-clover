@@ -1,14 +1,16 @@
 'use client'
 
-import { Clover } from '@/components/Clover'
-import styles from './page.module.css'
 import { useEffect, useState } from 'react';
-import { CloverState } from '@/types';
+
+import { Button } from '@/components/Button';
+import { Clover } from '@/components/Clover'
+import { hardList } from '@/constants/hard';
 import { pokemonList } from '@/constants/pokemon';
 import { wordList } from '@/constants/words';
+import { CloverState } from '@/types';
 import { congratulationsMessages } from '@/utils';
-import { Button } from '@/components/Button';
-import { hardList } from '@/constants/hard';
+
+import styles from './page.module.css'
 
 export type GameState = "SELECTING_GAME" | "CLUING" | "GUESSING" | "REVEALED";
 
