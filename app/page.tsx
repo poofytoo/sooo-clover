@@ -50,7 +50,15 @@ export default function Home() {
       // check if entries are all "" 
       localStorage.removeItem('clover');
     } else if (gameState !== "SELECTING_GAME" && gameState !== "REVEALED") {
-      localStorage.setItem('clover', JSON.stringify({ gameState, cloverState }));
+      const cleanedCloverState = { ...cloverState };
+      // remove showingIncorrect from all leaves
+      cleanedCloverState.leaves = cleanedCloverState.leaves.map(leaf => {
+        return { ...leaf, showIncorrect: false }
+      });
+      localStorage.setItem('clover', JSON.stringify({
+        gameState,
+        cloverState: cleanedCloverState
+      }));
     } else if (gameState === "REVEALED") {
       localStorage.removeItem('clover');
     }
