@@ -5,6 +5,7 @@
 
 .bottomButtonContainer {
   margin-top: 40px;
+  padding-bottom: 40px;
   text-align: center;
 }
 
@@ -57,8 +58,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  writing-mode: vertical-lr;
-  transform: rotate(180deg);
+  width: var(--short);
+  margin: 0 8px;
+  /* vertical-lr not supported in iOS old versions */
+  /* writing-mode: vertical-lr; */
+  transform: rotate(-90deg);
 }
 
 .leafBank {
@@ -73,6 +77,10 @@
   z-index: 1;
   left: 0;
   top: 0;
+}
+
+.bottomTextInput {
+  padding-top: 3px;
 }
 
 .iconContainer {

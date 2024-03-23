@@ -333,7 +333,7 @@ export const Clover = ({
           />
         </div>
         <div></div>
-        <div>
+        <div className={styles.bottomTextInput}>
           <TextInput
             canEdit={gameState === "CLUING"}
             tabIndex={3}

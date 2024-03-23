@@ -1,7 +1,4 @@
 .textInput {
---short: 20px;
---long: 200px;
-
   text-align: center;
   padding: 5px;
   border-radius: calc(var(--round) / 2);
@@ -29,6 +26,6 @@
 }
 
 .isVertical {
-  width: var(--short);
-  height: var(--long);
+  /* width: var(--short);
+  height: var(--long); */
 }

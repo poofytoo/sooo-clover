@@ -24,6 +24,10 @@ body {
   --black: black;
   --incorrect: #7c0909;
 
+  /* for text inputs */
+  --short: 20px;
+  --long: 200px;
+
   font-family: "Gabarito";
 }
 
@@ -78,5 +82,8 @@ h2 {
     --default-font-size: 12px;
     --leaf-font-size: 9px;
     --text-height: calc(var(--leaf-font-size) + 5px);
+    
+    --short: 16px;
+    --long: 160px;
   }
 }
