@@ -23,10 +23,10 @@ body {
 
 @media (max-width: 768px) {
   body {
-    --leaf-size: 100px;
+    --leaf-size: 90px;
     --default-font-size: 12px;
     --leaf-font-size: 10px;
-    --text-height: calc(var(--leaf-font-size) + 8px);
+    --text-height: calc(var(--leaf-font-size) + 5px);
   }
 }
 
