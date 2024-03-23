@@ -6,6 +6,7 @@ body {
   --round: 10px;
   --text-height: 25px;
 
+  --leaf-color-lighter: #e9f1c5;
   --leaf-color-light: #c7e85b;
   --leaf-color: #bada55;
   --leaf-color-dark: #b1d04e;

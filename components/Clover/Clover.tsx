@@ -250,8 +250,7 @@ export const Clover = ({
         <>
         <Celebrate />
         <Button onClick={() => {
-          setCloverState(newGame());
-          setGameState("CLUING");
+          setGameState("SELECTING_GAME");
         }}>Restart</Button>
       </>
       }

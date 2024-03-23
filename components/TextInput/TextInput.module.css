@@ -4,7 +4,7 @@
   width: 120px;
   border-radius: calc(var(--round) / 2);
   outline: none;
-  font-size: 14px;
+  font-size: 15px;
   border: 2px solid var(--leaf-color);
 }
 
@@ -14,7 +14,7 @@
 
 .textInput:disabled {
   border: 0;
-  background-color: var(--white);
+  background-color: var(--leaf-color-lighter);
 }
 
 .textInput::placeholder {
