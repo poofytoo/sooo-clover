@@ -1,7 +1,7 @@
 'use client';
 
 import { TextInput } from '../TextInput';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import styles from './Clover.module.css'
 import cx from "classnames";
@@ -30,6 +30,35 @@ export const Clover = ({
   setGameState: (state: GameState) => void
 }) => {
   const [showIcon, setShowIcon] = useState(false);
+
+
+  const submitClues = useCallback(() => {
+    setGameState("GUESSING");
+    const newCloverState = { ...cloverState };
+    // randomize rotations and place into positions 4 through 8 inclusive. use each position exactly once.
+    const positions = [4, 5, 6, 7, 8];
+    newCloverState.leaves.forEach(leaf => {
+      const newPosition = positions.splice(Math.floor(Math.random() * positions.length), 1)[0];
+      leaf.position = newPosition;
+      leaf.rotation = Math.floor(Math.random() * 4);
+    });
+  }, [cloverState, setGameState]);
+
+  useEffect(() => {
+    // detect enter key, and submit clues
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Enter") {
+        // check that all clues are filled out
+        if (gameState === "CLUING" && cloverState.entries.filter(entry => entry.length === 0).length === 0) {
+          submitClues();
+        }
+      }
+    }
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    }
+  }, [gameState, submitClues, cloverState]);
 
   const handleDragEnd = (event: any) => {
     const { active, over } = event;
@@ -147,20 +176,11 @@ export const Clover = ({
         }, 100);
       }}
       >Rotate</button>}{" "}
-      {gameState === "CLUING" && <button className={gab.className} onClick={() => {
-        setGameState("GUESSING");
-        const newCloverState = { ...cloverState };
-        // randomize rotations and place into positions 4 through 8 inclusive. use each position exactly once.
-        const positions = [4, 5, 6, 7, 8];
-        newCloverState.leaves.forEach(leaf => {
-          const newPosition = positions.splice(Math.floor(Math.random() * positions.length), 1)[0];
-          leaf.position = newPosition;
-          leaf.rotation = Math.floor(Math.random() * 4);
-        });
-      }}
+      {gameState === "CLUING" && <button className={gab.className} onClick={submitClues}
         disabled={
           cloverState.entries.filter(entry => entry.length === 0).length > 0
-        }>
+        }
+        tabIndex={5}>
         Submit
       </button>}
       {gameState === "GUESSING" &&

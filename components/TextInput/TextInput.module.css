@@ -16,3 +16,7 @@
   border: 0;
   background-color: var(--white);
 }
+
+.textInput::placeholder {
+  color: #ddd;
+}
