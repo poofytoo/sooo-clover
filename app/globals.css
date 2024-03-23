@@ -1,9 +1,12 @@
+
+
 body {
   --clover-size: 320px;
   --leaf-size: 140px;
   --round: 10px;
-  --text-height: 30px;
+  --text-height: 25px;
 
+  --leaf-color-light: #c7e85b;
   --leaf-color: #bada55;
   --leaf-color-dark: #b1d04e;
   --accent-color: #548f10;
@@ -11,9 +14,7 @@ body {
   --black: black;
   --incorrect: #7c0909;
 
-  --font: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-
-  font-family: var(--font);
+  font-family: "Gabarito";
 }
 
 * {
@@ -34,7 +35,14 @@ button {
   box-shadow: 0 2px 0 var(--accent-color);
 }
 
-button:hover {
+button:disabled {
+  background-color: lightgray;
+  color: gray;
+  box-shadow: none;
+  transform: translateY(2px);
+}
+
+button:hover:not(:disabled) {
   cursor: pointer;
   background-color: var(--leaf-color-dark);
 }
@@ -42,6 +50,13 @@ button:hover {
 .leaf-dark {
   fill: var(--incorrect);
   animation: blink 0.4s infinite;
+}
+
+h2 {
+  font-size: 24px;
+  text-transform: uppercase;
+  color: var(--accent-color);
+  font-weight: bold;
 }
 
 @keyframes blink {

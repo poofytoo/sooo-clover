@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { CloverState } from '@/types';
 import { pokemonList } from '@/constants/pokemon';
 import { wordList } from '@/constants/words';
+import { congratulationsMessages } from '@/utils';
 
 export type GameState = "CLUING" | "GUESSING" | "REVEALED";
 
@@ -41,7 +42,8 @@ const newGame = () => {
   return {
     entries: [...Array(4)].map(() => ''),
     rotation: 0,
-    leaves
+    leaves,
+    congratulationsMessage: congratulationsMessages[Math.floor(Math.random() * congratulationsMessages.length)]
   }
 }
 

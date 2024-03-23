@@ -9,13 +9,14 @@ import cx from "classnames";
 // import { wordList } from '@/constants/pokemon';
 
 import Leaf from '../Leaf/Leaf';
-import { LeafPlaceholder } from '../LeafPlaceholder';
-import { Celebrate } from '../Celebrate';
+import { LeafPlaceholder } from '@/components/LeafPlaceholder';
+import { Celebrate } from '@/components/Celebrate';
 
 import { DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { CwIcon } from '@/icons/Rotate';
 import { CloverState, LeafState } from '@/types';
 import { GameState } from '@/app/page';
+import { gab } from '@/app/layout';
 
 export const Clover = ({
   cloverState,
@@ -134,7 +135,8 @@ export const Clover = ({
     sensors={sensors}
   >
     <div className={styles.buttonContainer}>
-      <button onClick={(e) => {
+      {gameState === "REVEALED" && <h2>{cloverState.congratulationsMessage}</h2>}
+      {gameState !== "REVEALED" && <button className={gab.className} onClick={(e) => {
         setShowIcon(true);
         setTimeout(() => {
           setShowIcon(false);
@@ -144,8 +146,8 @@ export const Clover = ({
           })
         }, 100);
       }}
-      >Rotate Clover</button>{" "}
-      {gameState === "CLUING" && <button onClick={() => {
+      >Rotate</button>}{" "}
+      {gameState === "CLUING" && <button className={gab.className} onClick={() => {
         setGameState("GUESSING");
         const newCloverState = { ...cloverState };
         // randomize rotations and place into positions 4 through 8 inclusive. use each position exactly once.
@@ -155,57 +157,64 @@ export const Clover = ({
           leaf.position = newPosition;
           leaf.rotation = Math.floor(Math.random() * 4);
         });
-      }}>
+      }}
+        disabled={
+          cloverState.entries.filter(entry => entry.length === 0).length > 0
+        }>
         Submit
       </button>}
-      {gameState === "GUESSING" && <button onClick={
-        () => {
-          const newCloverState = JSON.parse(JSON.stringify(cloverState));
-          const correctGuesses = cloverState.leaves.map((leaf, key) => {
-            if (leaf.position >= 4) {
-              // if not in the clover, don't grade it
-              return undefined;
-            }
-            if (key === 4) {
-              // this is the decoy. it is always wrong if it's in the first 4 positions.
-              if (leaf.position <= 3) {
-                return false;
-              }
-            } else {
-              return key === leaf.position && leaf.rotation === 0;
-            }
-          });
-
-          newCloverState.leaves.forEach((leaf: LeafState, key: number) => {
-            leaf.showIncorrect = correctGuesses[key] === false;
-          })
-
-          setCloverState(newCloverState);
-
-          // if thre aren't four correct guesses
-          if (correctGuesses.filter(correct => correct).length < 4) {
-            setTimeout(() => {
-              const ejectedCloverState = JSON.parse(JSON.stringify(newCloverState));
-              const takenSpots = newCloverState.leaves.map((leaf: LeafState) => leaf.position);
-              const leafBankSpots = [4, 5, 6, 7, 8].filter(spot => !takenSpots.includes(spot));
-              let ejectedCloverStateIndex = 0;
-              console.log(ejectedCloverState)
-              ejectedCloverState.leaves.forEach((leaf: LeafState) => {
-                console.log(leaf.showIncorrect)
-                if (leaf.showIncorrect) {
-                  const newPosition = leafBankSpots[ejectedCloverStateIndex];
-                  ejectedCloverStateIndex++;
-                  leaf.position = newPosition;
-                  console.log(newPosition);
+      {gameState === "GUESSING" &&
+        <button
+          className={gab.className}
+          disabled={cloverState.leaves.filter(leaf => leaf.position < 4).length < 4}
+          onClick={
+            () => {
+              const newCloverState = JSON.parse(JSON.stringify(cloverState));
+              const correctGuesses = cloverState.leaves.map((leaf, key) => {
+                if (leaf.position >= 4) {
+                  // if not in the clover, don't grade it
+                  return undefined;
+                }
+                if (key === 4) {
+                  // this is the decoy. it is always wrong if it's in the first 4 positions.
+                  if (leaf.position <= 3) {
+                    return false;
+                  }
+                } else {
+                  return key === leaf.position && leaf.rotation === 0;
                 }
               });
-              setCloverState(ejectedCloverState);
-            }, 1000);
-          } else {
-            setGameState("REVEALED");
-          }
-        }}
-      >Guess!</button>}
+
+              newCloverState.leaves.forEach((leaf: LeafState, key: number) => {
+                leaf.showIncorrect = correctGuesses[key] === false;
+              })
+
+              setCloverState(newCloverState);
+
+              // if thre aren't four correct guesses
+              if (correctGuesses.filter(correct => correct).length < 4) {
+                setTimeout(() => {
+                  const ejectedCloverState = JSON.parse(JSON.stringify(newCloverState));
+                  const takenSpots = newCloverState.leaves.map((leaf: LeafState) => leaf.position);
+                  const leafBankSpots = [4, 5, 6, 7, 8].filter(spot => !takenSpots.includes(spot));
+                  let ejectedCloverStateIndex = 0;
+                  console.log(ejectedCloverState)
+                  ejectedCloverState.leaves.forEach((leaf: LeafState) => {
+                    console.log(leaf.showIncorrect)
+                    if (leaf.showIncorrect) {
+                      const newPosition = leafBankSpots[ejectedCloverStateIndex];
+                      ejectedCloverStateIndex++;
+                      leaf.position = newPosition;
+                      console.log(newPosition);
+                    }
+                  });
+                  setCloverState(ejectedCloverState);
+                }, 1000);
+              } else {
+                setGameState("REVEALED");
+              }
+            }}
+        >Guess!</button>}
       {gameState === "REVEALED" &&
         <Celebrate />
       }

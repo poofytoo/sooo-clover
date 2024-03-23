@@ -14,7 +14,7 @@ export const Celebrate: React.FC = () => {
       drawShape={ctx => {
         ctx.beginPath();
         ctx.rect(0, 0, 15, 15);
-        ctx.fillStyle = '#00A36C'; // A shade of green, adjust as needed
+        ctx.fillStyle = '#548f10'; // A shade of green, adjust as needed
         ctx.fill();
       }}
     />

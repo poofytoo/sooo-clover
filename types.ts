@@ -10,4 +10,5 @@ export interface CloverState {
   entries: string[];
   rotation: number;
   leaves: LeafState[];
+  congratulationsMessage?: string;
 }
