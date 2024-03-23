@@ -1,11 +1,8 @@
-/* eslint-disable @next/next/no-page-custom-font */
-
-import { Gabarito } from "next/font/google";
-
-export const gab = Gabarito({ subsets: ["latin"] });
 
 import "./reset.css";
 import "./globals.css";
+
+import { gab } from "@/utils";
 
 export default function RootLayout({
   children,

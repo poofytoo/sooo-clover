@@ -1,3 +1,7 @@
+import { Gabarito } from "next/font/google";
+
+export const gab = Gabarito({ subsets: ["latin"] });
+
 export const congratulationsMessages = [
   'Congratulations!',
   'Well Done!',
@@ -23,3 +27,6 @@ export const congratulationsMessages = [
   'Youuuuu did it!',
   'Winner!',
 ]
+
+
+
