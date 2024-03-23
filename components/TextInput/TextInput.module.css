@@ -6,8 +6,8 @@
   font-size: var(--default-font-size);
   border: 2px solid var(--leaf-color);
   letter-spacing: 0.3px;
-  height: var(--short);
-  width: var(--long);
+  /* height: var(--short);
+  width: var(--long); */
 }
 
 .textInput:focus {
