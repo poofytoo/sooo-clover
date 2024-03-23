@@ -34,3 +34,9 @@
 .circle:last-child {
   margin-right: 0;
 }
+
+@media screen and (max-width: 768px) {
+  .container {
+    margin-bottom: 10px;
+  }
+}

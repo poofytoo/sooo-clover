@@ -13,9 +13,9 @@
 
 .cloverContainer {
   display: grid;
-  gap: 10px;
-  grid-template-columns: 30px calc(var(--leaf-size) * 2 + 12px) 30px;
-  grid-template-rows: 30px calc(var(--leaf-size) * 2 + 12px) 30px;
+  gap: 15px;
+  grid-template-columns: min-content calc(var(--leaf-size) * 2 + 12px) min-content;
+  grid-template-rows: min-content calc(var(--leaf-size) * 2 + 12px) min-content;
   text-align: center;
 }
 
@@ -24,15 +24,13 @@
   transform: rotate(90deg);
 }
 
-.ccw {
+/* .ccw {
   transform: rotate(-90deg);
-}
+} */
 
 .leavesContainer {
-  height: var(--leaf-size);
-  width: var(--leaf-size);
   display: grid;
-  gap: 5px;
+  gap: 6px;
   grid-template-columns: 1fr 1fr;
   align-items: center;
   justify-items: center;
@@ -47,19 +45,22 @@
 }
 
 .cw {
-  transform: rotate(-90deg);
+  /* transform: rotate(-90deg); */
 }
 
 .verticalText {
   display: flex;
   align-items: center;
   justify-content: center;
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
 }
 
 .leafBank {
   margin-top: 30px;
   display: flex;
   gap: 10px;
+  justify-content: center;
 }
 
 .leavesContainer {
@@ -89,4 +90,21 @@
 
 .noModify {
   pointer-events: none;
+}
+
+@media screen and (max-width: 768px) {
+  .cloverContainer {
+    gap: 5px;
+  }
+  .leavesContainer {
+    gap: 5px;
+  }
+  .leafBank {
+    flex-wrap: wrap;
+    margin-top: 10px;
+    gap: 5px;
+  }
+  .buttonContainer {
+    margin-bottom: 10px;
+  }
 }

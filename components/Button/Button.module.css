@@ -1,0 +1,22 @@
+.button {
+  background-color: var(--leaf-color);
+  font-size: var(--default-font-size);
+  padding: 8px 16px;
+  color: var(--black);
+  border-radius: var(--round);
+  border: 0;
+  outline: 0;
+  box-shadow: 0 2px 0 var(--accent-color);
+}
+
+.button:disabled {
+  background-color: lightgray;
+  color: gray;
+  box-shadow: none;
+  transform: translateY(2px);
+}
+
+.button:hover:not(:disabled) {
+  cursor: pointer;
+  background-color: var(--leaf-color-dark);
+}

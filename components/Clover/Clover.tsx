@@ -178,24 +178,26 @@ export const Clover = ({
   >
     <div className={styles.buttonContainer}>
       {gameState === "REVEALED" && <h2>{cloverState.congratulationsMessage}</h2>}
-      {gameState !== "REVEALED" && <Button className={gab.className} onClick={() => {
-        setShowIcon(true);
-        setTimeout(() => {
-          setShowIcon(false);
-          setCloverState({
-            ...cloverState,
-            rotation: (cloverState.rotation + 3) % 4
-          })
-        }, 100);
-      }}
-      >Rotate</Button>}{" "}
-      {gameState === "CLUING" && <Button className={gab.className} onClick={submitClues}
-        disabled={
-          cloverState.entries.filter(entry => entry.length === 0).length > 0
-        }
-        tabIndex={5}>
-        Submit
-      </Button>}
+      {gameState !== "REVEALED" &&
+        <Button onClick={() => {
+          setShowIcon(true);
+          setTimeout(() => {
+            setShowIcon(false);
+            setCloverState({
+              ...cloverState,
+              rotation: (cloverState.rotation + 3) % 4
+            })
+          }, 100);
+        }}
+        >Rotate</Button>}{" "}
+      {gameState === "CLUING" &&
+        <Button onClick={submitClues}
+          disabled={
+            cloverState.entries.filter(entry => entry.length === 0).length > 0
+          }
+          tabIndex={5}>
+          Submit
+        </Button>}
       {gameState === "GUESSING" &&
         <Button
           disabled={cloverState.leaves.filter(leaf => leaf.position < 4).length < 4}
@@ -263,24 +265,28 @@ export const Clover = ({
       <div className={cx(styles.cloverContainer, {
         [styles.rotationAnimation]: showIcon,
       })}>
-        <div></div>
-        <div><TextInput
-          tabIndex={1}
-          canEdit={gameState === "CLUING"}
-          value={getEntryValue(0)}
-          setValue={(value) => {
-            setEntryValue(0, value);
-          }}
-        /></div>
-        <div></div>
-        <div className={cx(styles.ccw, styles.verticalText)}><TextInput
-          canEdit={gameState === "CLUING"}
-          tabIndex={4}
-          value={getEntryValue(3)}
-          setValue={(value) => {
-            setEntryValue(3, value);
-          }}
-        /></div>
+        <div />
+        <div>
+          <TextInput
+            tabIndex={1}
+            canEdit={gameState === "CLUING"}
+            value={getEntryValue(0)}
+            setValue={(value) => {
+              setEntryValue(0, value);
+            }}
+          />
+        </div>
+        <div />
+        <div className={cx(styles.ccw, styles.verticalText)}>
+          <TextInput
+            canEdit={gameState === "CLUING"}
+            tabIndex={4}
+            value={getEntryValue(3)}
+            setValue={(value) => {
+              setEntryValue(3, value);
+            }}
+          />
+        </div>
         <div className={styles.centerContainer}>
           <div className={cx(styles.leavesContainer, {
             [styles.noModify]: gameState === "CLUING"

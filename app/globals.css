@@ -1,10 +1,13 @@
 
 
 body {
-  --clover-size: 320px;
-  --leaf-size: 140px;
+  --leaf-size: 170px;
   --round: 10px;
-  --text-height: 22px;
+
+  --default-font-size: 17px;
+
+  --leaf-font-size: 14px;
+  --text-height: calc(var(--leaf-font-size) + 12px);
 
   --leaf-color-lighter: #e9f1c5;
   --leaf-color-light: #c7e85b;
@@ -18,6 +21,15 @@ body {
   font-family: "Gabarito";
 }
 
+@media (max-width: 768px) {
+  body {
+    --leaf-size: 100px;
+    --default-font-size: 12px;
+    --leaf-font-size: 10px;
+    --text-height: calc(var(--leaf-font-size) + 8px);
+  }
+}
+
 * {
   -webkit-touch-callout: none;
   -webkit-user-drag: none;
@@ -28,29 +40,6 @@ body {
 .dem {
   opacity: 0.4;
   font-weight: 200;
-}
-
-button {
-  background-color: var(--leaf-color);
-  font-size: 16px;
-  padding: 8px 16px;
-  color: var(--black);
-  border-radius: var(--round);
-  border: 0;
-  outline: 0;
-  box-shadow: 0 2px 0 var(--accent-color);
-}
-
-button:disabled {
-  background-color: lightgray;
-  color: gray;
-  box-shadow: none;
-  transform: translateY(2px);
-}
-
-button:hover:not(:disabled) {
-  cursor: pointer;
-  background-color: var(--leaf-color-dark);
 }
 
 .leaf-dark {

@@ -8,7 +8,7 @@
   width: var(--leaf-size);
   position: relative;
   background-color: var(--leaf-color);
-  font-size: 12px;
+  font-size: var(--leaf-font-size);
   white-space: nowrap;
   border-radius: var(--round);
   text-transform: uppercase;
