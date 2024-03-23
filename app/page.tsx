@@ -18,7 +18,7 @@ const startingLocations = [
   0, 1, 2, 3, 8
 ]
 
-const newGame = (customList?: string[]) => {
+export const newGame = (customList?: string[]) => {
 
   customList = customList || wordList;
 

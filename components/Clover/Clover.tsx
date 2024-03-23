@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import cx from "classnames";
 
-import { GameState } from '@/app/page';
+import { GameState, newGame } from '@/app/page';
 import { Attempts } from '@/components/Attempts';
 import { Celebrate } from '@/components/Celebrate';
 import { LeafPlaceholder } from '@/components/LeafPlaceholder';
@@ -52,6 +52,19 @@ export const Clover = ({
         if (gameState === "CLUING" && cloverState.entries.filter(entry => entry.length === 0).length === 0) {
           submitClues();
         }
+      }
+      // check if ctrl + s is pressed. if so, set the clover state to: leaves 0 through 3 are in the correct position (positions 0 through 3), and 4 is in the leaf bank (position 4). also set the rotation to 0 for all leaves.
+      if (event.ctrlKey && event.key === "s") {
+        setCloverState({
+          ...cloverState,
+          leaves: cloverState.leaves.map((leaf, key) => {
+            return {
+              ...leaf,
+              position: key,
+              rotation: 0
+            }
+          })
+        });
       }
     }
     document.addEventListener("keydown", handleKeyDown);
@@ -234,10 +247,16 @@ export const Clover = ({
             }}
         >Guess!</Button>}
       {gameState === "REVEALED" &&
+        <>
         <Celebrate />
+        <Button onClick={() => {
+          setCloverState(newGame());
+          setGameState("CLUING");
+        }}>Restart</Button>
+      </>
       }
     </div>
-    {gameState === "GUESSING" && <div>
+    {(gameState === "GUESSING" || gameState === "REVEALED") && <div>
       <Attempts numberOfTries={cloverState.attempts} />
     </div>}
     <div className={styles.centerContainer}>
