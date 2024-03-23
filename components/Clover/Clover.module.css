@@ -3,6 +3,11 @@
   text-align: center;
 }
 
+.bottomButtonContainer {
+  margin-top: 40px;
+  text-align: center;
+}
+
 .centerContainer {
   text-align: center;
   display: flex;
@@ -96,14 +101,17 @@
   .cloverContainer {
     gap: 5px;
   }
+
   .leavesContainer {
     gap: 5px;
   }
+
   .leafBank {
     flex-wrap: wrap;
     margin-top: 10px;
     gap: 5px;
   }
+
   .buttonContainer {
     margin-bottom: 10px;
   }

@@ -44,7 +44,7 @@ body {
 
 .leaf-dark {
   fill: var(--incorrect);
-  animation: blink 0.4s infinite;
+  animation: blink 0.4s 2;
 }
 
 h1 {

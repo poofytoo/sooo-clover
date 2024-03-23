@@ -199,6 +199,7 @@ export const Clover = ({
           Submit
         </Button>}
       {gameState === "GUESSING" &&
+        <>
         <Button
           disabled={cloverState.leaves.filter(leaf => leaf.position < 4).length < 4}
           onClick={
@@ -236,19 +237,23 @@ export const Clover = ({
                     if (leaf.showIncorrect) {
                       const newPosition = leafBankSpots[ejectedCloverStateIndex];
                       ejectedCloverStateIndex++;
-                      leaf.position = newPosition;
-                      leaf.showIncorrect = false;
+                      // leaf.position = newPosition;
+                      // leaf.showIncorrect = false;
                     }
                   });
                   // increment attempts
                   ejectedCloverState.attempts++;
                   setCloverState(ejectedCloverState);
-                }, 1000);
+                }, 500);
               } else {
                 setGameState("REVEALED");
               }
             }}
-        >Guess!</Button>}
+          >
+            Guess!
+          </Button>
+        </>
+      }
       {gameState === "REVEALED" &&
         <>
         <Celebrate />
@@ -350,6 +355,29 @@ export const Clover = ({
         }
         )}
       </div>}
+      {gameState === "GUESSING" && <div className={styles.bottomButtonContainer}>
+        <Button
+          buttonType="secondary"
+          onClick={() => {
+            const confirm = window.confirm("You Sure?");
+            if (!confirm) {
+              return;
+            }
+            setCloverState({
+              ...cloverState,
+              leaves: cloverState.leaves.map((leaf, key) => {
+                return {
+                  ...leaf,
+                  position: key,
+                  rotation: 0
+                }
+              })
+            });
+          }}>
+          Give Up
+        </Button>
+      </div>
+      }
     </div>
   </DndContext >
 }
