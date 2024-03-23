@@ -1,0 +1,23 @@
+export const tacoBell = [
+  "tacos", "burritos", "fastfood", "quesadilla", "nachos", "chalupa", "crunchwrap",
+  "beans", "rice", "salsa", "guacamole", "cheese", "lettuce", "tomato", "beef",
+  "chicken", "pork", "seafood", "vegetarian", "vegan", "spicy", "mild", "hot",
+  "fire", "diablo", "breakfast", "lunch", "dinner", "snack", "drive-thru",
+  "delivery", "order", "menu", "combo", "value", "deal", "special", "discount",
+  "promotion", "nutrition", "calories", "diet", "flavor",
+  "filling", "crave", "craving", "hungry", "hunger", "eat", "food", "meal",
+  "cuisine", "Mexican", "American", "fusion", "innovation", "new", "classic",
+  "traditional", "modern", "trend", "popular", "famous", "favorite", "recommend",
+  "review", "rating", "star", "experience", "service", "fast", "quick", "speed",
+  "efficient", "convenience", "convenient", "local", "global", "international",
+  "chain", "franchise", "location", "store", "restaurant", "kitchen", "cook",
+  "chef", "team", "staff", "crew", "service", "clean", "hygiene", "safe",
+  "safety", "protocol", "measure", "waste", "reduce", "community", "support",
+  "charity", "donation", "event", "sponsor", "partnership", "collaboration",
+  "innovation", "coupon", "gift",
+  "card", "feedback", "suggestion", "complaint", "issue", "resolve", "solution",
+  "customer", "guest", "visitor", "fan", "follower", "community", "social",
+  "media", "campaign", "advertisement", "marketing", "brand", "logo",
+  "identity", "image", "reputation", "trust", "quality", "value", "satisfaction", "loyalty", "commitment", "dedication", "passion", "love", "enjoy", "fun",
+  "happy", "smile", "joy", "celebrate", "party", "gathering", "family", "friends", "moment", "memory", "experience", "adventure", "journey", "destination", "explore", "discover", "culture", "heritage", "tradition", "history"
+]

@@ -6,6 +6,7 @@ import { Button } from '@/components/Button';
 import { Clover } from '@/components/Clover'
 import { hardList } from '@/constants/hard';
 import { pokemonList } from '@/constants/pokemon';
+import { tacoBell } from '@/constants/tacoBell';
 import { wordList } from '@/constants/words';
 import { CloverState, GameState } from '@/types';
 import { congratulationsMessages, newGame, startingLocations } from '@/utils';
@@ -19,6 +20,35 @@ const blankGame = () => ({
     return { id: 0, words: [], rotation: 0, position: location }
   }),
   attempts: 0,
+});
+
+const wordSets = [
+  {
+    words: wordList,
+    name: "Normal"
+  },
+  {
+    words: pokemonList,
+    name: "Pokemon"
+  },
+  {
+    words: hardList,
+    name: "Hard Words"
+  },
+  {
+    words: tacoBell,
+    name: "Taco Bell"
+  },
+]
+
+// add all words together in a all words list
+const allWords = wordSets.reduce((acc: string[], set) => {
+  return [...acc, ...set.words]
+}, [])
+
+wordSets.push({
+  words: allWords,
+  name: "All"
 });
 
 const getInitialState = () => {
@@ -69,30 +99,16 @@ export default function Home() {
       <div className={styles.startContainer}>
         <h1>Sooo Clover</h1>
         <div className={styles.buttonContainer}>
-          <div>
-            <Button onClick={() => {
-              setCloverState(newGame());
-              setGameState("CLUING");
-            }}>New Game</Button>
-          </div>
-          <div>
-            <Button onClick={() => {
-              setCloverState(newGame(pokemonList))
-              setGameState("CLUING")
-            }}>New Game <span className="dem">(Pokemon)</span></Button>
-          </div>
-          <div>
-            <Button onClick={() => {
-              setCloverState(newGame(hardList))
-              setGameState("CLUING")
-            }}>New Game <span className="dem">(Hard Words)</span></Button>
-          </div>
-          <div>
-            <Button onClick={() => {
-              setCloverState(newGame(Array.from(new Set([...wordList, ...hardList, ...pokemonList]))));
-              setGameState("CLUING");
-            }}>New Game <span className="dem">(All)</span></Button>
-          </div>
+          {
+            wordSets.map((set, key) => {
+              return <div key={key}>
+                <Button onClick={() => {
+                  setCloverState(newGame(set.words));
+                  setGameState("CLUING");
+                }}>New Game <span className="dem">({set.name})</span></Button>
+              </div>
+            })
+          }
         </div>
       </div>
     }

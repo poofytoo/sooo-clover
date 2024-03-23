@@ -20,3 +20,13 @@
   cursor: pointer;
   background-color: var(--leaf-color-dark);
 }
+
+.isSecondary {
+  background-color: var(--secondary-color);
+  box-shadow: 0 2px 0 var(--secondary-color-darker);
+}
+
+.isSecondary:hover:not(:disabled) {
+  cursor: pointer;
+  background-color: var(--secondary-color-dark);
+}

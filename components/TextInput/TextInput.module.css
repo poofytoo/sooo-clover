@@ -1,4 +1,7 @@
 .textInput {
+--short: 20px;
+--long: 200px;
+
   text-align: center;
   padding: 5px;
   border-radius: calc(var(--round) / 2);
@@ -6,6 +9,8 @@
   font-size: var(--default-font-size);
   border: 2px solid var(--leaf-color);
   letter-spacing: 0.3px;
+  height: var(--short);
+  width: var(--long);
 }
 
 .textInput:focus {
@@ -21,4 +26,9 @@
 
 .textInput::placeholder {
   color: #ddd;
+}
+
+.isVertical {
+  width: var(--short);
+  height: var(--long);
 }

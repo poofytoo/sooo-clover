@@ -10,16 +10,20 @@ export const TextInput = ({
   setValue,
   tabIndex,
   canEdit,
-  placeholder
+  placeholder,
+  isVertical
 }: {
   value: string,
     setValue: (value: string) => void,
     tabIndex: number
     canEdit: boolean
     placeholder?: string
+    isVertical?: boolean
 }) => {
   return <input
-    className={cx(styles.textInput, gab.className)}
+    className={cx(styles.textInput, gab.className, {
+      [styles.isVertical]: isVertical
+    })}
     type="text"
     value={value}
     tabIndex={tabIndex}

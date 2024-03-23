@@ -286,6 +286,7 @@ export const Clover = ({
           <TextInput
             canEdit={gameState === "CLUING"}
             tabIndex={4}
+            isVertical={true}
             value={getEntryValue(3)}
             setValue={(value) => {
               setEntryValue(3, value);
@@ -320,14 +321,17 @@ export const Clover = ({
             <CwIcon />
           </div>
         </div>
-        <div className={cx(styles.cw, styles.verticalText)}><TextInput
-          canEdit={gameState === "CLUING"}
-          tabIndex={2}
-          value={getEntryValue(1)}
-          setValue={(value) => {
-            setEntryValue(1, value);
-          }}
-        /></div>
+        <div className={cx(styles.cw, styles.verticalText)}>
+          <TextInput
+            canEdit={gameState === "CLUING"}
+            tabIndex={2}
+            value={getEntryValue(1)}
+            setValue={(value) => {
+              setEntryValue(1, value);
+            }}
+            isVertical={true}
+          />
+        </div>
         <div></div>
         <div>
           <TextInput
@@ -357,7 +361,7 @@ export const Clover = ({
       </div>}
       {gameState === "GUESSING" && <div className={styles.bottomButtonContainer}>
         <Button
-          buttonType="secondary"
+          isSecondary={true}
           onClick={() => {
             const confirm = window.confirm("You Sure?");
             if (!confirm) {
