@@ -23,9 +23,9 @@ body {
 
 @media (max-width: 768px) {
   body {
-    --leaf-size: 90px;
+    --leaf-size: 100px;
     --default-font-size: 12px;
-    --leaf-font-size: 10px;
+    --leaf-font-size: 9px;
     --text-height: calc(var(--leaf-font-size) + 5px);
   }
 }
