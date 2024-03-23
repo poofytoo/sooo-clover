@@ -177,18 +177,24 @@ export const Clover = ({
     sensors={sensors}
   >
     <div className={styles.buttonContainer}>
-      {gameState === "REVEALED" && <h2>{cloverState.congratulationsMessage}</h2>}
+      {gameState === "REVEALED"
+        && <>{(cloverState.attemptState !== "RESIGNED"
+          && cloverState.attemptState !== "LOSE") ? <h2>
+          {cloverState.congratulationsMessage}
+        </h2> : <h3>Next Time!</h3>}
+        </>}
       {gameState !== "REVEALED" &&
-        <Button onClick={() => {
-          setShowIcon(true);
-          setTimeout(() => {
-            setShowIcon(false);
-            setCloverState({
-              ...cloverState,
-              rotation: (cloverState.rotation + 3) % 4
-            })
-          }, 100);
-        }}
+        <Button
+          onClick={() => {
+            setShowIcon(true);
+            setTimeout(() => {
+              setShowIcon(false);
+              setCloverState({
+                ...cloverState,
+                rotation: (cloverState.rotation + 3) % 4
+              })
+            }, 100);
+          }}
         >Rotate</Button>}{" "}
       {gameState === "CLUING" &&
         <Button onClick={submitClues}
@@ -256,16 +262,36 @@ export const Clover = ({
       }
       {gameState === "REVEALED" &&
         <>
-        <Celebrate />
+        {cloverState.attemptState !== "LOSE" &&
+          cloverState.attemptState !== "RESIGNED" && <Celebrate />}
+        <Button
+          isSecondary={true}
+          onClick={() => {
+            setGameState("GUESSING");
+            setCloverState({
+              ...cloverState,
+              attempts: 0,
+              attemptState: "ATTEMPTING",
+              leaves: cloverState.leaves.map((leaf, key) => {
+                return {
+                  ...leaf,
+                  position: key + 4,
+                  rotation: 0
+                }
+              })
+            })
+          }}>Replay Clover</Button>{" "}
         <Button onClick={() => {
           setGameState("SELECTING_GAME");
         }}>Restart</Button>
       </>
       }
     </div>
-    {(gameState === "GUESSING" || gameState === "REVEALED") && <div>
-      <Attempts numberOfTries={cloverState.attempts} />
-    </div>}
+    {
+      (gameState === "GUESSING" || gameState === "REVEALED") && <div>
+        <Attempts numberOfTries={cloverState.attempts} />
+      </div>
+    }
     <div className={styles.centerContainer}>
       <div className={cx(styles.cloverContainer, {
         [styles.rotationAnimation]: showIcon,
@@ -369,6 +395,7 @@ export const Clover = ({
             }
             setCloverState({
               ...cloverState,
+              attemptState: "RESIGNED",
               leaves: cloverState.leaves.map((leaf, key) => {
                 return {
                   ...leaf,
@@ -377,8 +404,19 @@ export const Clover = ({
                 }
               })
             });
+            setGameState("REVEALED")
           }}>
           Give Up
+        </Button>
+      </div>
+      }
+      {gameState === "CLUING" && <div className={styles.bottomButtonContainer}>
+        <Button
+          isSecondary={true}
+          onClick={() => {
+            setGameState("SELECTING_GAME");
+          }}>
+          Restart
         </Button>
       </div>
       }
