@@ -235,6 +235,7 @@ export const Clover = ({
                       const newPosition = leafBankSpots[ejectedCloverStateIndex];
                       ejectedCloverStateIndex++;
                       leaf.position = newPosition;
+                      leaf.showIncorrect = false;
                     }
                   });
                   // increment attempts
