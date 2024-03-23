@@ -4,11 +4,11 @@ import { useCallback, useEffect, useState } from 'react';
 import { DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import cx from "classnames";
 
-import { GameState, newGame } from '@/app/page';
 import { Attempts } from '@/components/Attempts';
 import { Celebrate } from '@/components/Celebrate';
 import { LeafPlaceholder } from '@/components/LeafPlaceholder';
 import { CwIcon } from '@/icons/Rotate';
+import { GameState } from '@/types';
 import { CloverState, LeafState } from '@/types';
 import { gab } from '@/utils';
 

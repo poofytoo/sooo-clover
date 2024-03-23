@@ -6,6 +6,8 @@ export interface LeafState {
   id: number;
 }
 
+export type GameState = "SELECTING_GAME" | "CLUING" | "GUESSING" | "REVEALED";
+
 export interface CloverState {
   entries: string[];
   rotation: number;
