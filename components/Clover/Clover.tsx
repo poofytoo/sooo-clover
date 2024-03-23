@@ -5,6 +5,7 @@ import { DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
 import cx from "classnames";
 
 import { GameState } from '@/app/page';
+import { Attempts } from '@/components/Attempts';
 import { Celebrate } from '@/components/Celebrate';
 import { LeafPlaceholder } from '@/components/LeafPlaceholder';
 import { CwIcon } from '@/icons/Rotate';
@@ -216,16 +217,15 @@ export const Clover = ({
                   const takenSpots = newCloverState.leaves.map((leaf: LeafState) => leaf.position);
                   const leafBankSpots = [4, 5, 6, 7, 8].filter(spot => !takenSpots.includes(spot));
                   let ejectedCloverStateIndex = 0;
-                  console.log(ejectedCloverState)
                   ejectedCloverState.leaves.forEach((leaf: LeafState) => {
-                    console.log(leaf.showIncorrect)
                     if (leaf.showIncorrect) {
                       const newPosition = leafBankSpots[ejectedCloverStateIndex];
                       ejectedCloverStateIndex++;
                       leaf.position = newPosition;
-                      console.log(newPosition);
                     }
                   });
+                  // increment attempts
+                  ejectedCloverState.attempts++;
                   setCloverState(ejectedCloverState);
                 }, 1000);
               } else {
@@ -237,6 +237,9 @@ export const Clover = ({
         <Celebrate />
       }
     </div>
+    {gameState === "GUESSING" && <div>
+      <Attempts numberOfTries={cloverState.attempts} />
+    </div>}
     <div className={styles.centerContainer}>
       <div className={cx(styles.cloverContainer, {
         [styles.rotationAnimation]: showIcon,

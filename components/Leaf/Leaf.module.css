@@ -16,8 +16,18 @@
   touch-action: none;
 }
 
-.rotationAnimation {
+.leafContainer:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+}
+
+.leafContainer.rotationAnimation {
   transform: rotate(90deg);
+  transition: 0.1s linear;
+}
+
+.leafContainer.rotationAnimationCcw {
+  transform: rotate(-90deg);
   transition: 0.1s linear;
 }
 
@@ -32,15 +42,7 @@
   cursor: -webkit-grabbing !important;
 }
 
-.rotationAnimationCcw {
-  transform: rotate(-90deg);
-  transition: 0.1s linear;
-}
 
-.leafContainer:hover {
-  cursor: pointer;
-  transform: scale(1.05);
-}
 
 .top,
 .bottom {

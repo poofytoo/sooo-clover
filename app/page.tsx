@@ -35,6 +35,7 @@ const newGame = (customList?: string[]) => {
   return {
     entries: [...Array(4)].map(() => ''),
     rotation: 0,
+    attempts: 0,
     leaves,
     congratulationsMessage: congratulationsMessages[Math.floor(Math.random() * congratulationsMessages.length)]
   }
