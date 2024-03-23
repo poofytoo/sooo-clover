@@ -16,8 +16,8 @@ import { DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
 import { CwIcon } from '@/icons/Rotate';
 import { CloverState, LeafState } from '@/types';
 import { GameState } from '@/app/page';
-import { gab } from '@/app/layout';
 import { Button } from '../Button';
+import { gab } from '@/utils';
 
 export const Clover = ({
   cloverState,
@@ -166,7 +166,7 @@ export const Clover = ({
   >
     <div className={styles.buttonContainer}>
       {gameState === "REVEALED" && <h2>{cloverState.congratulationsMessage}</h2>}
-      {gameState !== "REVEALED" && <Button className={gab.className} onClick={(e) => {
+      {gameState !== "REVEALED" && <Button className={gab.className} onClick={() => {
         setShowIcon(true);
         setTimeout(() => {
           setShowIcon(false);

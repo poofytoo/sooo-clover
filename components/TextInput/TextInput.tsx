@@ -1,4 +1,5 @@
-import { gab } from '@/app/layout';
+
+import { gab } from '@/utils';
 import styles from './TextInput.module.css';
 
 import cx from "classnames";
