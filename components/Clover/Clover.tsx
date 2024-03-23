@@ -17,6 +17,7 @@ import { CwIcon } from '@/icons/Rotate';
 import { CloverState, LeafState } from '@/types';
 import { GameState } from '@/app/page';
 import { gab } from '@/app/layout';
+import { Button } from '../Button';
 
 export const Clover = ({
   cloverState,
@@ -165,7 +166,7 @@ export const Clover = ({
   >
     <div className={styles.buttonContainer}>
       {gameState === "REVEALED" && <h2>{cloverState.congratulationsMessage}</h2>}
-      {gameState !== "REVEALED" && <button className={gab.className} onClick={(e) => {
+      {gameState !== "REVEALED" && <Button className={gab.className} onClick={(e) => {
         setShowIcon(true);
         setTimeout(() => {
           setShowIcon(false);
@@ -175,17 +176,16 @@ export const Clover = ({
           })
         }, 100);
       }}
-      >Rotate</button>}{" "}
-      {gameState === "CLUING" && <button className={gab.className} onClick={submitClues}
+      >Rotate</Button>}{" "}
+      {gameState === "CLUING" && <Button className={gab.className} onClick={submitClues}
         disabled={
           cloverState.entries.filter(entry => entry.length === 0).length > 0
         }
         tabIndex={5}>
         Submit
-      </button>}
+      </Button>}
       {gameState === "GUESSING" &&
-        <button
-          className={gab.className}
+        <Button
           disabled={cloverState.leaves.filter(leaf => leaf.position < 4).length < 4}
           onClick={
             () => {
@@ -234,7 +234,7 @@ export const Clover = ({
                 setGameState("REVEALED");
               }
             }}
-        >Guess!</button>}
+        >Guess!</Button>}
       {gameState === "REVEALED" &&
         <Celebrate />
       }

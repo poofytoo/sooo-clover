@@ -1,0 +1,15 @@
+export const hardList = ["infinity", "love", "time", "freedom", "justice", "beauty", "truth", "knowledge",
+  "wisdom", "power", "happiness", "peace", "desire", "fear", "memory", "imagination",
+  "faith", "hope", "courage", "honor", "loyalty", "trust", "respect", "ambition",
+  "patience", "compassion", "gratitude", "humility", "pride", "envy", "anger",
+  "sadness", "joy", "grief", "guilt", "shame", "curiosity", "determination",
+  "perseverance", "motivation", "inspiration", "integrity", "ethics", "morality",
+  "virtue", "wisdom", "creativity", "intelligence", "thought", "consciousness",
+  "awareness", "perception", "sensation", "intuition", "reason", "logic", "belief",
+  "opinion", "argument", "persuasion", "dialogue", "discussion", "debate", "conflict",
+  "challenge", "problem", "solution", "innovation", "progress", "development",
+  "growth", "change", "transition", "transformation", "revolution", "evolution",
+  "adaptation", "survival", "existence", "reality", "illusion", "fantasy", "dream",
+  "nightmare", "vision", "mystery", "secret", "mystery", "paradox", "anomaly",
+  "phenomenon", "experience", "adventure", "journey", "quest", "discovery", "exploration", "quasar", "nebula", "enzyme", "isotope", "quark", "genome", "synapse", "photon", "fungus", "lichen", "magma", "zephyr", "tundra", "archipelago", "canyon", "estuary", "glacier", "isthmus", "peninsula", "volcano", "algorithm", "byte", "cache", "firewall", "kernel", "malware", "node", "pixel", "query", "router", "syntax", "bandwidth", "compiler", "database", "encryption", "firmware", "gateway", "heuristic", "interface", "jargon", "keyframe", "metadata", "nonce", "opcode", "protocol", "queue", "resolution", "stream", "token", "utilization", "virtualization", "widget", "noodle", "cheese", "rooster", "bamboozle", "shout", "toast", "dumplings", "fake", "truth"
+]
