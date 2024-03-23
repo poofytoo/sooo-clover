@@ -1,6 +1,7 @@
 import { useDroppable } from '@dnd-kit/core';
-import styles from './LeafPlaceholder.module.css';
 import cx from "classnames";
+
+import styles from './LeafPlaceholder.module.css';
 
 export const LeafPlaceholder = ({ id, children }: {
   id: string
