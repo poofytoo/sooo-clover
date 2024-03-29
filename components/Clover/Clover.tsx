@@ -314,7 +314,11 @@ export const Clover = ({
             })
           }}>Replay Clover</Button>{" "}
         <Button onClick={() => {
+          const url = new URL(window.location.href);
+          url.searchParams.delete('game');
+          window.history.pushState({}, '', url.toString());
           setGameState("SELECTING_GAME");
+          // clear URL
         }}>Restart</Button>
       </>
       }
@@ -447,6 +451,9 @@ export const Clover = ({
           isSecondary={true}
           onClick={() => {
             setGameState("SELECTING_GAME");
+            const url = new URL(window.location.href);
+            url.searchParams.delete('game');
+            window.history.pushState({}, '', url.toString());
           }}>
           Restart
         </Button>
