@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 
 import { Button } from '@/components/Button';
-import { Clover } from '@/components/Clover'
+import { Clover, decodeJsonObject } from '@/components/Clover'
 import { hardList } from '@/constants/hard';
 import { pokemonList } from '@/constants/pokemon';
 import { tacoBell } from '@/constants/tacoBell';
@@ -52,7 +52,15 @@ wordSets.push({
 });
 
 const getInitialState = () => {
+
   if (typeof window !== 'undefined') {
+    // check if url has a game=???
+    const url = new URL(window.location.href);
+    const game = url.searchParams.get('game');
+    if (game) {
+      return { gameState: "GUESSING", cloverState: decodeJsonObject(game) }
+    }
+
     const clover = localStorage.getItem('clover');
     if (clover) {
       const { gameState, cloverState } = JSON.parse(clover);

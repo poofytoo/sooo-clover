@@ -18,6 +18,32 @@ import { TextInput } from '../TextInput';
 
 import styles from './Clover.module.css'
 
+// Function to encode a JSON object as a URL-safe Base64 string
+function encodeJsonObject(jsonObject: object): string {
+  // Convert the JSON object to a string
+  const jsonString = JSON.stringify(jsonObject);
+  // Convert the string to a Base64 string
+  const base64String = Buffer.from(jsonString).toString('base64');
+  // Make the Base64 string URL-safe by replacing + with -, / with _, and removing =
+  const urlSafeBase64String = base64String.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  return urlSafeBase64String;
+}
+
+// Function to decode a URL-safe Base64 string back to a JSON object
+export const decodeJsonObject = (urlSafeBase64String: string): object => {
+  // Convert the URL-safe Base64 string back to a regular Base64 string
+  let base64String = urlSafeBase64String.replace(/-/g, '+').replace(/_/g, '/');
+  // Padding may be required for correct decoding
+  while (base64String.length % 4) {
+    base64String += '=';
+  }
+  // Decode the Base64 string to a JSON string
+  const jsonString = Buffer.from(base64String, 'base64').toString();
+  // Parse the JSON string back into an object
+  const jsonObject = JSON.parse(jsonString);
+  return jsonObject;
+}
+
 export const Clover = ({
   cloverState,
   setCloverState,
@@ -31,9 +57,9 @@ export const Clover = ({
 }) => {
   const [showIcon, setShowIcon] = useState(false);
 
-
   const submitClues = useCallback(() => {
     setGameState("GUESSING");
+
     const newCloverState = { ...cloverState };
     // randomize rotations and place into positions 4 through 8 inclusive. use each position exactly once.
     const positions = [4, 5, 6, 7, 8];
@@ -42,6 +68,12 @@ export const Clover = ({
       leaf.position = newPosition;
       leaf.rotation = Math.floor(Math.random() * 4);
     });
+
+    // set the url to be the current game state
+    const url = new URL(window.location.href);
+    url.searchParams.set('game', encodeJsonObject(cloverState));
+    window.history.pushState({}, '', url.toString());
+
   }, [cloverState, setGameState]);
 
   useEffect(() => {
