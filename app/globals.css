@@ -1,5 +1,6 @@
 html {
   background-color: #f5f5f5;
+  overflow: hidden;
 }
 
 body {
@@ -45,6 +46,11 @@ body {
 .dem {
   opacity: 0.4;
   font-weight: 200;
+}
+
+strong {
+  font-weight: bold;
+  color: var(--accent-color);
 }
 
 .leaf-dark {

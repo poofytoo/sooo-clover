@@ -58,3 +58,25 @@ export const newGame = (customList?: string[]) => {
     congratulationsMessage: congratulationsMessages[Math.floor(Math.random() * congratulationsMessages.length)]
   }
 }
+
+export function encodeJsonObject(jsonObject: object): string {
+  const jsonString = JSON.stringify(jsonObject);
+  const base64String = Buffer.from(jsonString).toString('base64');
+  const urlSafeBase64String = base64String.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  return urlSafeBase64String;
+}
+
+// Function to decode a URL-safe Base64 string back to a JSON object
+export const decodeJsonObject = (urlSafeBase64String: string): object => {
+  // Convert the URL-safe Base64 string back to a regular Base64 string
+  let base64String = urlSafeBase64String.replace(/-/g, '+').replace(/_/g, '/');
+  // Padding may be required for correct decoding
+  while (base64String.length % 4) {
+    base64String += '=';
+  }
+  // Decode the Base64 string to a JSON string
+  const jsonString = Buffer.from(base64String, 'base64').toString();
+  // Parse the JSON string back into an object
+  const jsonObject = JSON.parse(jsonString);
+  return jsonObject;
+}

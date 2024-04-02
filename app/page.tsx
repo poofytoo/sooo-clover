@@ -3,13 +3,11 @@
 import { useEffect, useState } from 'react';
 
 import { Button } from '@/components/Button';
-import { Clover, decodeJsonObject } from '@/components/Clover'
-import { hardList } from '@/constants/hard';
+import { Clover } from '@/components/Clover';
 import { pokemonList } from '@/constants/pokemon';
-import { tacoBell } from '@/constants/tacoBell';
 import { wordList } from '@/constants/words';
 import { CloverState, GameState } from '@/types';
-import { congratulationsMessages, newGame, startingLocations } from '@/utils';
+import { decodeJsonObject, newGame, startingLocations } from '@/utils';
 
 import styles from './page.module.css'
 
@@ -22,24 +20,19 @@ const blankGame = () => ({
   attempts: 0,
 });
 
-const wordSets = [
-  {
-    words: wordList,
-    name: "Normal"
-  },
-  {
-    words: pokemonList,
-    name: "Pokemon"
-  },
-  {
-    words: hardList,
-    name: "Hard Words"
-  },
-  {
-    words: tacoBell,
-    name: "Taco Bell"
-  },
-]
+const wordSets: {
+  words: string[],
+  name?: string
+}[]
+  = [
+    {
+      words: wordList,
+    },
+    {
+      words: pokemonList,
+      name: "Pokemon"
+    }
+  ]
 
 // add all words together in a all words list
 const allWords = wordSets.reduce((acc: string[], set) => {
@@ -113,7 +106,7 @@ export default function Home() {
                 <Button onClick={() => {
                   setCloverState(newGame(set.words));
                   setGameState("CLUING");
-                }}>New Game <span className="dem">({set.name})</span></Button>
+                }}>New Game {set.name && <span className="dem">({set.name})</span>}</Button>
               </div>
             })
           }

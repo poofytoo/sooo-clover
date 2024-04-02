@@ -10,39 +10,13 @@ import { LeafPlaceholder } from '@/components/LeafPlaceholder';
 import { CwIcon } from '@/icons/Rotate';
 import { GameState } from '@/types';
 import { CloverState, LeafState } from '@/types';
-import { gab } from '@/utils';
+import { encodeJsonObject } from '@/utils';
 
 import { Button } from '../Button';
 import Leaf from '../Leaf/Leaf';
 import { TextInput } from '../TextInput';
 
 import styles from './Clover.module.css'
-
-// Function to encode a JSON object as a URL-safe Base64 string
-function encodeJsonObject(jsonObject: object): string {
-  // Convert the JSON object to a string
-  const jsonString = JSON.stringify(jsonObject);
-  // Convert the string to a Base64 string
-  const base64String = Buffer.from(jsonString).toString('base64');
-  // Make the Base64 string URL-safe by replacing + with -, / with _, and removing =
-  const urlSafeBase64String = base64String.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-  return urlSafeBase64String;
-}
-
-// Function to decode a URL-safe Base64 string back to a JSON object
-export const decodeJsonObject = (urlSafeBase64String: string): object => {
-  // Convert the URL-safe Base64 string back to a regular Base64 string
-  let base64String = urlSafeBase64String.replace(/-/g, '+').replace(/_/g, '/');
-  // Padding may be required for correct decoding
-  while (base64String.length % 4) {
-    base64String += '=';
-  }
-  // Decode the Base64 string to a JSON string
-  const jsonString = Buffer.from(base64String, 'base64').toString();
-  // Parse the JSON string back into an object
-  const jsonObject = JSON.parse(jsonString);
-  return jsonObject;
-}
 
 export const Clover = ({
   cloverState,
@@ -227,71 +201,7 @@ export const Clover = ({
               })
             }, 100);
           }}
-        >Rotate</Button>}{" "}
-      {gameState === "CLUING" &&
-        <Button onClick={submitClues}
-          disabled={
-            cloverState.entries.filter(entry => entry.length === 0).length > 0
-          }
-          tabIndex={5}>
-          Submit
-        </Button>}
-      {gameState === "GUESSING" &&
-        <>
-        <Button
-          disabled={cloverState.leaves.filter(leaf => leaf.position < 4).length < 4}
-          onClick={
-            () => {
-              const newCloverState = JSON.parse(JSON.stringify(cloverState));
-              const correctGuesses = cloverState.leaves.map((leaf, key) => {
-                if (leaf.position >= 4) {
-                  // if not in the clover, don't grade it
-                  return undefined;
-                }
-                if (key === 4) {
-                  // this is the decoy. it is always wrong if it's in the first 4 positions.
-                  if (leaf.position <= 3) {
-                    return false;
-                  }
-                } else {
-                  return key === leaf.position && leaf.rotation === 0;
-                }
-              });
-
-              newCloverState.leaves.forEach((leaf: LeafState, key: number) => {
-                leaf.showIncorrect = correctGuesses[key] === false;
-              })
-
-              setCloverState(newCloverState);
-
-              // if thre aren't four correct guesses
-              if (correctGuesses.filter(correct => correct).length < 4) {
-                setTimeout(() => {
-                  const ejectedCloverState = JSON.parse(JSON.stringify(newCloverState));
-                  const takenSpots = newCloverState.leaves.map((leaf: LeafState) => leaf.position);
-                  const leafBankSpots = [4, 5, 6, 7, 8].filter(spot => !takenSpots.includes(spot));
-                  let ejectedCloverStateIndex = 0;
-                  ejectedCloverState.leaves.forEach((leaf: LeafState) => {
-                    if (leaf.showIncorrect) {
-                      const newPosition = leafBankSpots[ejectedCloverStateIndex];
-                      ejectedCloverStateIndex++;
-                      // leaf.position = newPosition;
-                      // leaf.showIncorrect = false;
-                    }
-                  });
-                  // increment attempts
-                  ejectedCloverState.attempts++;
-                  setCloverState(ejectedCloverState);
-                }, 500);
-              } else {
-                setGameState("REVEALED");
-              }
-            }}
-          >
-            Guess!
-          </Button>
-        </>
-      }
+        >Rotate Grid</Button>}{" "}
       {gameState === "REVEALED" &&
         <>
         {cloverState.attemptState !== "LOSE" &&
@@ -443,6 +353,58 @@ export const Clover = ({
             setGameState("REVEALED")
           }}>
           Give Up
+        </Button>{" "}
+        <Button
+          disabled={cloverState.leaves.filter(leaf => leaf.position < 4).length < 4}
+          onClick={
+            () => {
+              const newCloverState = JSON.parse(JSON.stringify(cloverState));
+              const correctGuesses = cloverState.leaves.map((leaf, key) => {
+                if (leaf.position >= 4) {
+                  // if not in the clover, don't grade it
+                  return undefined;
+                }
+                if (key === 4) {
+                  // this is the decoy. it is always wrong if it's in the first 4 positions.
+                  if (leaf.position <= 3) {
+                    return false;
+                  }
+                } else {
+                  return key === leaf.position && leaf.rotation === 0;
+                }
+              });
+
+              newCloverState.leaves.forEach((leaf: LeafState, key: number) => {
+                leaf.showIncorrect = correctGuesses[key] === false;
+              })
+
+              setCloverState(newCloverState);
+
+              // if thre aren't four correct guesses
+              if (correctGuesses.filter(correct => correct).length < 4) {
+                setTimeout(() => {
+                  const ejectedCloverState = JSON.parse(JSON.stringify(newCloverState));
+                  const takenSpots = newCloverState.leaves.map((leaf: LeafState) => leaf.position);
+                  const leafBankSpots = [4, 5, 6, 7, 8].filter(spot => !takenSpots.includes(spot));
+                  let ejectedCloverStateIndex = 0;
+                  ejectedCloverState.leaves.forEach((leaf: LeafState) => {
+                    if (leaf.showIncorrect) {
+                      const newPosition = leafBankSpots[ejectedCloverStateIndex];
+                      ejectedCloverStateIndex++;
+                      // leaf.position = newPosition;
+                      // leaf.showIncorrect = false;
+                    }
+                  });
+                  // increment attempts
+                  ejectedCloverState.attempts++;
+                  setCloverState(ejectedCloverState);
+                }, 500);
+              } else {
+                setGameState("REVEALED");
+              }
+            }}
+        >
+          Guess!
         </Button>
       </div>
       }
@@ -450,12 +412,23 @@ export const Clover = ({
         <Button
           isSecondary={true}
           onClick={() => {
+            const confirm = window.confirm("You Sure?");
+            if (!confirm) {
+              return;
+            }
             setGameState("SELECTING_GAME");
             const url = new URL(window.location.href);
             url.searchParams.delete('game');
             window.history.pushState({}, '', url.toString());
           }}>
-          Restart
+          New Game
+        </Button>{" "}
+        <Button onClick={submitClues}
+          disabled={
+            cloverState.entries.filter(entry => entry.length === 0).length > 0
+          }
+          tabIndex={5}>
+          Submit
         </Button>
       </div>
       }

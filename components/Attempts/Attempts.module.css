@@ -1,7 +1,19 @@
-.container {
+.attemptsContainer {
+  text-align: center;
+}
+
+.pipsContainer {
   display: flex;
   justify-content: center; /* Centers the circles horizontally */
   margin-bottom: 20px;
+}
+
+.instructions {
+  display: inline-block;
+  text-align: center;
+  margin: 0 20px 20px;
+  line-height: 1.4em;
+  max-width: 560px;
 }
 
 .circle {
