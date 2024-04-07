@@ -6,7 +6,7 @@
 
 .bottomButtonContainer {
   margin-top: 40px;
-  padding-bottom: 50px;
+  padding-bottom: 100px;
   text-align: center;
 }
 
@@ -16,6 +16,7 @@
   flex-direction: column;
   align-items: center;
   position: relative;
+  padding-bottom: 30px;
 }
 
 .cloverContainer {
@@ -64,6 +65,13 @@
   /* vertical-lr not supported in iOS old versions */
   /* writing-mode: vertical-lr; */
   transform: rotate(-90deg);
+}
+
+.verticalTextContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .leafBank {

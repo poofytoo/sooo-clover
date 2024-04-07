@@ -51,4 +51,8 @@
   .container {
     margin-bottom: 10px;
   }
+
+  .instructions {
+    font-size: 12px;
+  }
 }

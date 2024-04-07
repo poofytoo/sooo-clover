@@ -254,16 +254,18 @@ export const Clover = ({
           />
         </div>
         <div />
-        <div className={cx(styles.ccw, styles.verticalText)}>
-          <TextInput
-            canEdit={gameState === "CLUING"}
-            tabIndex={4}
-            isVertical={true}
-            value={getEntryValue(3)}
-            setValue={(value) => {
-              setEntryValue(3, value);
-            }}
-          />
+        <div className={styles.verticalTextContainer}>
+          <div className={cx(styles.ccw, styles.verticalText)}>
+            <TextInput
+              canEdit={gameState === "CLUING"}
+              tabIndex={4}
+              isVertical={true}
+              value={getEntryValue(3)}
+              setValue={(value) => {
+                setEntryValue(3, value);
+              }}
+            />
+          </div>
         </div>
         <div className={styles.centerContainer}>
           <div className={cx(styles.leavesContainer, {
@@ -293,16 +295,18 @@ export const Clover = ({
             <CwIcon />
           </div>
         </div>
-        <div className={cx(styles.cw, styles.verticalText)}>
-          <TextInput
-            canEdit={gameState === "CLUING"}
-            tabIndex={2}
-            value={getEntryValue(1)}
-            setValue={(value) => {
-              setEntryValue(1, value);
-            }}
-            isVertical={true}
-          />
+        <div className={styles.verticalTextContainer}>
+          <div className={cx(styles.cw, styles.verticalText)}>
+            <TextInput
+              canEdit={gameState === "CLUING"}
+              tabIndex={2}
+              value={getEntryValue(1)}
+              setValue={(value) => {
+                setEntryValue(1, value);
+              }}
+              isVertical={true}
+            />
+          </div>
         </div>
         <div></div>
         <div className={styles.bottomTextInput}>
