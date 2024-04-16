@@ -31,8 +31,7 @@ export const Clover = ({
 }) => {
   const [showIcon, setShowIcon] = useState(false);
 
-  const submitClues = useCallback(() => {
-    setGameState("GUESSING");
+  const submitClues = useCallback(async () => {
 
     const newCloverState = { ...cloverState };
     // randomize rotations and place into positions 4 through 8 inclusive. use each position exactly once.
@@ -43,11 +42,28 @@ export const Clover = ({
       leaf.rotation = Math.floor(Math.random() * 4);
     });
 
-    // set the url to be the current game state
-    const url = new URL(window.location.href);
-    url.searchParams.set('game', encodeJsonObject(cloverState));
-    window.history.pushState({}, '', url.toString());
+    // push to firebase
+    const result = await fetch('/api/game', {
+      method: 'POST',
+      body: JSON.stringify(newCloverState),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
 
+    if (result.status === 200) {
+      console.log(result);
+      const data = await result.json();
+      const gameId = data.gameId;
+      setGameState("GUESSING");
+
+      // set the url to be the current game state
+      const url = new URL(window.location.href);
+      url.searchParams.set('game', gameId);
+      window.history.pushState({}, '', url.toString());
+    } else {
+      alert("Failed to submit clues. Please try again.");
+    }
   }, [cloverState, setGameState]);
 
   useEffect(() => {
@@ -194,9 +210,17 @@ export const Clover = ({
           onClick={() => {
             setShowIcon(true);
             setTimeout(() => {
+              // wipe leaf.showIncorrect = false;
+              const newCloverState = { ...cloverState };
+              newCloverState.leaves = newCloverState.leaves.map((leaf) => {
+                return {
+                  ...leaf,
+                  showIncorrect: false
+                }
+              });
               setShowIcon(false);
               setCloverState({
-                ...cloverState,
+                ...newCloverState,
                 rotation: (cloverState.rotation + 3) % 4
               })
             }, 100);
@@ -229,7 +253,7 @@ export const Clover = ({
           window.history.pushState({}, '', url.toString());
           setGameState("SELECTING_GAME");
           // clear URL
-        }}>Restart</Button>
+        }}>New Game</Button>
       </>
       }
     </div>
@@ -356,7 +380,7 @@ export const Clover = ({
             });
             setGameState("REVEALED")
           }}>
-          Give Up
+          Give Up & Quit
         </Button>{" "}
         <Button
           disabled={cloverState.leaves.filter(leaf => leaf.position < 4).length < 4}

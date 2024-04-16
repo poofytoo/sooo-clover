@@ -44,14 +44,36 @@ wordSets.push({
   name: "All"
 });
 
-const getInitialState = () => {
+const getInitialState = async () => {
 
   if (typeof window !== 'undefined') {
     // check if url has a game=???
     const url = new URL(window.location.href);
     const game = url.searchParams.get('game');
     if (game) {
-      return { gameState: "GUESSING", cloverState: decodeJsonObject(game) }
+      const result = await fetch(`/api/game?gameId=${game}`);
+      if (result.ok) {
+        const data = await result.json();
+        const cloverState = data.data;
+        return { gameState: "GUESSING", cloverState }
+      } else {
+        return { gameState: "SELECTING_GAME", cloverState: blankGame() }
+      }
+
+
+      // {
+      //   // if game exists, load it
+      //   if (gameData.ok) {
+      //     gameData.json().then((data) => {
+      //       const cloverState = data.data
+      //       console.log(cloverState)
+      //       return { gameState: "GUESSING", cloverState }
+      //     });
+      //   }
+      // }).catch((error) => {
+      //   console.error(error);
+      //   return { gameState: "SELECTING_GAME", cloverState: blankGame() }
+      // });
     }
 
     const clover = localStorage.getItem('clover');
@@ -71,9 +93,10 @@ export default function Home() {
   const [gameState, setGameState] = useState<GameState>("SELECTING_GAME");
 
   useEffect(() => {
-    const { gameState, cloverState } = getInitialState();
-    setGameState(gameState);
-    setCloverState(cloverState);
+    getInitialState().then(({ gameState, cloverState }) => {
+      setGameState(gameState);
+      setCloverState(cloverState);
+    })
   }, []);
 
   useEffect(() => {
